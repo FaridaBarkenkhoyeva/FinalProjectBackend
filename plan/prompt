@@ -1,0 +1,42 @@
+Create a wireframe for a physiotherapy application.
+
+Overall Style:
+
+Layout: Simple, professional, and minimal, light color.
+
+Color Palette: Dominated by shades of blue and white to create a calm, medical aesthetic.
+
+Screen 1: Dashboard
+
+Layout: A main screen divided into two primary sections.
+
+Left Panel: Title "Active Patients". Below the title, display a scrollable list of patients. Each list item should show the patient's name (surname, lastname).
+
+Functionality (Left Panel): Include a large, prominent "Add New Patient" button above or below the patient list.
+
+Right Panel: Title "Weekly Schedule". Display a weekly calendar view. The view should be clean, with day and time slots.
+from here user can also plan/ add a new patient. 
+
+Screen 2: Patient Intake Form
+
+Trigger: This screen is displayed after the "Add New Patient" button is clicked.
+
+Layout: A vertical form with clear labels and input fields.
+
+screen 3: patient assessment form
+left panel: small summary of patient intake
+right panel: patient assessment tests and questions.
+
+
+screen 4: patient treatment goals and plan
+left panel: patient assessment form
+right panel: patient treatment goals and plan
+
+
+screen 5: final assessment
+user can do a final assessment during the last session
+
+screen 6: here user can finish the end evaluation of this patient case and share it with colleges. 
+
+
+
