@@ -2,8 +2,10 @@ const express = require("express");
 
 const app = express();
 app.use(express.json());
-// const dotenv = require("dotenv");
-// dotenv.config();
+
+const dotenv = require("dotenv");
+dotenv.config();
+
 const port = 3000;
 
 const patients = [];
@@ -97,25 +99,23 @@ app.get("/api/intakes/:id", (req, res) => {
 
 // get : /api/intakes (get only active intakes)
 app.get("/api/intakes/active", (req, res) => {
-res.send("These are active intakes")
-})
+  res.send("These are active intakes");
+});
 
 // get : /api/intakes/all (get all intakes)
 app.get("/api/intakes", (req, res) => {
-  res.send("These are all existing intakes")
-})
-
+  res.send("These are all existing intakes");
+});
 
 // get : /api/intakes/completed (get only completed intakes)
 app.get("/api/intakes/completed", (req, res) => {
-  res.send("These are all completed intakes")
-})
-
+  res.send("These are all completed intakes");
+});
 
 // get : /api/intakes/:patientId (get all intakes from patientId)
 app.get("/api/intakes/patientId", (req, res) => {
-  res.send("These are all intakes from patientId")
-})
+  res.send("These are all intakes from patientId");
+});
 
 // might be implemented in future phases:
 // put :/api/intakes/:id (update intake)
@@ -131,8 +131,6 @@ app.get("/api/intakes/patientId", (req, res) => {
 // app.post("/api/intakes", (req, res) => {
 //   res.send("This intake is created and therefore patientId is also created")
 // })
-
-
 
 app.listen(3000, () => {
   `This server is running on port: ${port}`;
