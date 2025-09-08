@@ -4,6 +4,8 @@ const app = express();
 app.use(express.json());
 
 const dotenv = require("dotenv");
+const patientsModel = require("./models/patientsModel");
+
 dotenv.config();
 
 const port = 3000;
@@ -17,60 +19,147 @@ app.get("/", (req, res) => {
   res.send("Dashboard");
 });
 
+// app.get("/testModel", (req, res) => {
+//   try {
+//     const test = patientsModel.findAll({
+//       attributes: [
+//         "surname",
+//         "lastname",
+//         "phoneNumber",
+//         "email",
+//         "insuranceNumber",
+//         "gender",
+//         "DoB",
+//         "occupation",
+//       ],
+//     });
+//     res.json(test);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
+// app.post("/testModel", (req, res) => {
+//   const {
+//     surname,
+//     lastname,
+//     phoneNumber,
+//     email,
+//     insuranceNumber,
+//     gender,
+//     DoB,
+//     occupation,
+//   } = req.body;
+
+//   const test = patientsModel.create({
+//     surname,
+//     lastname,
+//     phoneNumber,
+//     email,
+//     insuranceNumber,
+//     gender,
+//     DoB,
+//     occupation,
+//   });
+//   res.json(test);
+// });
+
+app.post("/api/patients", async (req, res) => {
+ 
+    try {
+      const {
+        surname,
+        lastname,
+        phoneNumber,
+        email,
+        insuranceNumber,
+        gender,
+        DoB,
+        occupation,
+      } = req.body;
+
+      if (!surname || !lastname || !email || !insuranceNumber || !DoB) {
+        return res.status(400).json({
+          error:
+            "Surname, lastname, email, date of birth and insurance number are required for patient creation.",
+        });
+      }
+
+      const patient = await patientsModel.create({
+        surname,
+        lastname,
+        phoneNumber,
+        email,
+        insuranceNumber,
+        gender,
+        DoB,
+        occupation,
+      });
+
+      res.status(201).json({
+        id: patient.id,
+        name: patient.name,
+        surname: patient.surname,
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }}
+
+);
+
 // post : /api/patients (create patient )
-app.post("/api/patients", (req, res) => {
-  try {
-    const {
-      surname,
-      lastname,
-      phoneNumber,
-      email,
-      insuranceNumber,
-      gender,
-      DoB,
-      occupation,
-    } = req.body;
-    if (!surname || !lastname || !email || !insuranceNumber || !DoB) {
-      return res.status(400).json({
-        error:
-          "Surname, lastname, email, date of birth and insurance number are required for patient creation.",
-      });
-    }
+// app.post("/api/patients", (req, res) => {
+//   try {
+//     const {
+//       surname,
+//       lastname,
+//       phoneNumber,
+//       email,
+//       insuranceNumber,
+//       gender,
+//       DoB,
+//       occupation,
+//     } = req.body;
+//     if (!surname || !lastname || !email || !insuranceNumber || !DoB) {
+//       return res.status(400).json({
+//         error:
+//           "Surname, lastname, email, date of birth and insurance number are required for patient creation.",
+//       });
+//     }
 
-    //Check if patient exists
-    const existingPatient = patients.find(
-      (patient) =>
-        patient.email === email || patient.insuranceNumber === insuranceNumber
-    );
+//     //Check if patient exists
+//     const existingPatient = patientsModel.find(
+//       (patient) =>
+//         patient.email === email || patient.insuranceNumber === insuranceNumber
+//     );
 
-    if (existingPatient) {
-      return res.status(409).json({
-        error: "Patient with this data already exists",
-      });
-    }
-    // create a new patient object with ID
-    const newPatient = {
-      id: nextPatientId++,
-      surname,
-      lastname,
-      phoneNumber,
-      email,
-      insuranceNumber: insuranceNumber || null,
-      gender: gender || null,
-      DoB: DoB || null,
-      occupation: occupation || null,
-      // createdAt: new Date().toISOString(),
-    };
-    patients.push(newPatient);
+//     if (existingPatient) {
+//       return res.status(409).json({
+//         error: "Patient with this data already exists",
+//       });
+//     }
+//     // create a new patient object with ID
+//     const newPatient = {
+//       // id: nextPatientId++,
+//       surname,
+//       lastname,
+//       phoneNumber,
+//       email,
+//       insuranceNumber: insuranceNumber,
+//       gender: gender,
+//       DoB: DoB,
+//       occupation: occupation,
+//     };
+//     patients.push(newPatient);
 
-    res.status(201).json({
-      message: "Patient created successfully",
-      patient: newPatient,
-    });
-  } catch (error) {
-    res.send("error creating patient");
-  }
-});
+//     res.status(201).json({
+//       message: "Patient created successfully",
+//       patient: newPatient,
+//     });
+//   } catch (error) {
+//     res.send("error creating patient");
+//   }
+// });
 
 // get : /api/patients (get a list of all patients)
 app.get("/api/patients", (req, res) => {

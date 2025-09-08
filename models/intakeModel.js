@@ -1,7 +1,6 @@
 const sequelize = require("../db/db");
 const { DataTypes } = require("sequelize");
 
-// start with smaller tables in intake
 
 
 const intakeModel = sequelize.define(

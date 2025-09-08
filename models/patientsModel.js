@@ -1,5 +1,5 @@
-const sequelize = require("../db/db");
 const { DataTypes } = require("sequelize");
+const sequelize = require("../db/dbConnection");
 
 const patientsModel = sequelize.define(
   "Patient",
@@ -34,7 +34,7 @@ const patientsModel = sequelize.define(
       allowNull: false,
     },
     DoB: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.RANGE(DataTypes.DATEONLY),
       allowNull: false,
     },
     occupation: {
