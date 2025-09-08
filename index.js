@@ -4,9 +4,95 @@ const app = express();
 app.use(express.json());
 
 const dotenv = require("dotenv");
+const chiefComplaintModel = require("./models/subModels/chiefComplaintModel");
+const familySocialHistoryModel = require("./models/subModels/familySocialHistoryModel");
+const functionalStatusModel = require("./models/subModels/functionalStatusModel");
+const lifestyleFactorsModel = require("./models/subModels/lifestyleFactorsModel");
+const medicalHistoryModel = require("./models/subModels/medicalHistoryModel");
+const mskInjuryHistoryModel = require("./models/subModels/mskInjuryHistoryModel");
+const patientGoalsModel = require("./models/subModels/patientGoalsModels");
+const therapistNotesModel = require("./models/subModels/therapistNotesModel");
+const intakeModel = require("./models/intakeModel");
 const patientsModel = require("./models/patientsModel");
+const sequelize = require("./db/dbConnection");
 
-dotenv.config();
+//patient to intake
+patientsModel.hasMany(intakeModel, {
+  foreignKey: "patientId",
+  onDelete: "CASCADE",
+});
+intakeModel.belongsTo(patientsModel, {
+  foreignKey: "patientId",
+});
+
+// intake to submodals
+
+intakeModel.hasOne(chiefComplaintModel, {
+  foreignKey: "intakeId",
+  onDelete: "CASCADE",
+});
+chiefComplaintModel.belongsTo(intakeModel, {
+  foreignKey: "intakeId",
+});
+
+intakeModel.hasOne(medicalHistoryModel, {
+  foreignKey: "intakeId",
+  onDelete: "CASCADE",
+});
+
+medicalHistoryModel.belongsTo(intakeModel, {
+  foreignKey: "intakeId",
+});
+
+intakeModel.hasOne(mskInjuryHistoryModel, {
+  foreignKey: "intakeId",
+  onDelete: "CASCADE",
+});
+mskInjuryHistoryModel.belongsTo(intakeModel, {
+  foreignKey: "intakeId",
+});
+
+intakeModel.hasOne(functionalStatusModel, {
+  foreignKey: "intakeId",
+  onDelete: "CASCADE",
+});
+functionalStatusModel.belongsTo(intakeModel, {
+  foreignKey: "intakeId",
+});
+
+intakeModel.hasOne(lifestyleFactorsModel, {
+  foreignKey: "intakeId",
+  onDelete: "CASCADE",
+});
+lifestyleFactorsModel.belongsTo(intakeModel, {
+  foreignKey: "intakeId",
+});
+
+intakeModel.hasOne(familySocialHistoryModel, {
+  foreignKey: "intakeId",
+  onDelete: "CASCADE",
+});
+familySocialHistoryModel.belongsTo(intakeModel, {
+  foreignKey: "intakeId",
+});
+
+intakeModel.hasOne(patientGoalsModel, {
+  foreignKey: "intakeId",
+  onDelete: "CASCADE",
+});
+patientGoalsModel.belongsTo(intakeModel, {
+  foreignKey: "intakeId",
+});
+
+intakeModel.hasOne(therapistNotesModel, {
+  foreignKey: "intakeId",
+  onDelete: "CASCADE",
+});
+therapistNotesModel.belongsTo(intakeModel, {
+  foreignKey: "intakeId",
+});
+
+sequelize.sync();
 
 const port = 3000;
 
@@ -15,9 +101,11 @@ const patients = [];
 let nextPatientId = 1;
 
 //endpoint to dashboard
-app.get("/", (req, res) => {
-  res.send("Dashboard");
+app.get("/", async(req, res) => {
+  const n =  await intakeModel.findAll();
+  res.send(n);
 });
+
 
 // app.get("/testModel", (req, res) => {
 //   try {
@@ -65,47 +153,45 @@ app.get("/", (req, res) => {
 // });
 
 app.post("/api/patients", async (req, res) => {
- 
-    try {
-      const {
-        surname,
-        lastname,
-        phoneNumber,
-        email,
-        insuranceNumber,
-        gender,
-        DoB,
-        occupation,
-      } = req.body;
+  try {
+    const {
+      surname,
+      lastname,
+      phoneNumber,
+      email,
+      insuranceNumber,
+      gender,
+      DoB,
+      occupation,
+    } = req.body;
 
-      if (!surname || !lastname || !email || !insuranceNumber || !DoB) {
-        return res.status(400).json({
-          error:
-            "Surname, lastname, email, date of birth and insurance number are required for patient creation.",
-        });
-      }
-
-      const patient = await patientsModel.create({
-        surname,
-        lastname,
-        phoneNumber,
-        email,
-        insuranceNumber,
-        gender,
-        DoB,
-        occupation,
+    if (!surname || !lastname || !email || !insuranceNumber || !DoB) {
+      return res.status(400).json({
+        error:
+          "Surname, lastname, email, date of birth and insurance number are required for patient creation.",
       });
+    }
 
-      res.status(201).json({
-        id: patient.id,
-        name: patient.name,
-        surname: patient.surname,
-      });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }}
+    const patient = await patientsModel.create({
+      surname,
+      lastname,
+      phoneNumber,
+      email,
+      insuranceNumber,
+      gender,
+      DoB,
+      occupation,
+    });
 
-);
+    res.status(201).json({
+      id: patient.id,
+      name: patient.name,
+      surname: patient.surname,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // post : /api/patients (create patient )
 // app.post("/api/patients", (req, res) => {

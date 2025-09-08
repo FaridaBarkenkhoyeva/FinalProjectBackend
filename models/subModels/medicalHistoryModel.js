@@ -1,5 +1,5 @@
-const sequelize = require("../db/db");
 const { DataTypes } = require("sequelize");
+const sequelize = require("../../db/dbConnection");
 
 const medicalHistoryModel = sequelize.define(
   "MedicalHistory",

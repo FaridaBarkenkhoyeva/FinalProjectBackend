@@ -1,8 +1,8 @@
-const sequelize = require("../db/db");
 const { DataTypes } = require("sequelize");
+const sequelize = require("../db/dbConnection");
 
 
-
+// 
 const intakeModel = sequelize.define(
   "Intake",
   {

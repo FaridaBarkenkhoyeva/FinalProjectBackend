@@ -6,10 +6,12 @@ const functionalStatusModel = require("../models/subModels/functionalStatusModel
 const lifestyleFactorsModel = require("../models/subModels/lifestyleFactorsModel");
 const medicalHistoryModel = require("../models/subModels/medicalHistoryModel");
 const mskInjuryHistoryModel = require("../models/subModels/mskInjuryHistoryModel");
-const mskInjuryHistory = require("../models/subModels/mskInjuryHistoryModel");
 const patientGoalsModel = require("../models/subModels/patientGoalsModels");
 const therapistNotesModel = require("../models/subModels/therapistNotesModel");
+const sequelize = require("./dbConnection");
 
+
+//patient to intake 
 patientsModel.hasMany(intakeModel, {
   foreignKey: "patientId",
   onDelete: "CASCADE",
@@ -17,6 +19,9 @@ patientsModel.hasMany(intakeModel, {
 intakeModel.belongsTo(patientsModel, {
   foreignKey: "patientId",
 });
+
+
+// intake to submodals
 
 intakeModel.hasOne(chiefComplaintModel, {
   foreignKey: "intakeId",
@@ -82,3 +87,6 @@ intakeModel.hasOne(therapistNotesModel, {
 therapistNotesModel.belongsTo(intakeModel, {
   foreignKey: "intakeId",
 });
+
+
+sequelize.sync();
