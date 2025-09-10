@@ -1,14 +1,14 @@
-const sequelize = require("./db/dbConnection");
-const intakeModel = require("./models/intakeModel");
-const patientsModel = require("./models/patientsModel");
-const chiefComplaintModel = require("./models/subModels/chiefComplaintModel");
-const familySocialHistoryModel = require("./models/subModels/familySocialHistoryModel");
-const functionalStatusModel = require("./models/subModels/functionalStatusModel");
-const lifestyleFactorsModel = require("./models/subModels/lifestyleFactorsModel");
-const medicalHistoryModel = require("./models/subModels/medicalHistoryModel");
-const mskInjuryHistoryModel = require("./models/subModels/mskInjuryHistoryModel");
-const patientGoalsModel = require("./models/subModels/patientGoalsModels");
-const therapistNotesModel = require("./models/subModels/therapistNotesModel");
+const sequelize = require("../db/dbConnection");
+const intakeModel = require("../models/intakeModel");
+const patientsModel = require("../models/patientsModel");
+const chiefComplaintModel = require("../models/subModels/chiefComplaintModel");
+const familySocialHistoryModel = require("../models/subModels/familySocialHistoryModel");
+const functionalStatusModel = require("../models/subModels/functionalStatusModel");
+const lifestyleFactorsModel = require("../models/subModels/lifestyleFactorsModel");
+const medicalHistoryModel = require("../models/subModels/medicalHistoryModel");
+const mskInjuryHistoryModel = require("../models/subModels/mskInjuryHistoryModel");
+const patientGoalsModel = require("../models/subModels/patientGoalsModels");
+const therapistNotesModel = require("../models/subModels/therapistNotesModel");
 
 const seedDatabase = async () => {
   try {
@@ -426,4 +426,3 @@ const seedDatabase = async () => {
 seedDatabase();
 
 
-// module.exports = 

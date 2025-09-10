@@ -15,281 +15,325 @@ const therapistNotesModel = require("./models/subModels/therapistNotesModel");
 const intakeModel = require("./models/intakeModel");
 const patientsModel = require("./models/patientsModel");
 const sequelize = require("./db/dbConnection");
+const associationsPhase1 = require("./associationsPhase1");
+const patientRouter = require("./routers/patientRoutes");
 
-//patient to intake
-patientsModel.hasMany(intakeModel, {
-  foreignKey: "patientId",
-  onDelete: "CASCADE",
-});
-intakeModel.belongsTo(patientsModel, {
-  foreignKey: "patientId",
-});
-
-// intake to submodals
-
-intakeModel.hasOne(chiefComplaintModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-chiefComplaintModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-intakeModel.hasOne(medicalHistoryModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-
-medicalHistoryModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-intakeModel.hasOne(mskInjuryHistoryModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-mskInjuryHistoryModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-intakeModel.hasOne(functionalStatusModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-functionalStatusModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-intakeModel.hasOne(lifestyleFactorsModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-lifestyleFactorsModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-intakeModel.hasOne(familySocialHistoryModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-familySocialHistoryModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-intakeModel.hasOne(patientGoalsModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-patientGoalsModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-intakeModel.hasOne(therapistNotesModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-therapistNotesModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-sequelize.sync();
+dotenv.config();
 
 const port = 3000;
 
-const patients = [];
-// const intakes = []
-let nextPatientId = 1;
 
+const syncDatabase = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Database connected successfully");
+
+    sequelize.sync();
+    console.log("Database tables created successfully");
+  } catch (error) {
+    console.log("Unable to connect to database:", error);
+  }
+};
+
+syncDatabase();
+
+associationsPhase1();
 //endpoint to dashboard
-app.get("/", async(req, res) => {
-  const n =  await intakeModel.findAll();
+app.get("/api/", async (req, res) => {
+  const n = await intakeModel.findAll();
   res.send(n);
 });
 
 
-// app.get("/testModel", (req, res) => {
-//   try {
-//     const test = patientsModel.findAll({
-//       attributes: [
-//         "surname",
-//         "lastname",
-//         "phoneNumber",
-//         "email",
-//         "insuranceNumber",
-//         "gender",
-//         "DoB",
-//         "occupation",
-//       ],
-//     });
-//     res.json(test);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+//PatientRoutes
+app.use("/api/patients", patientRouter)
 
-// app.post("/testModel", (req, res) => {
-//   const {
-//     surname,
-//     lastname,
-//     phoneNumber,
-//     email,
-//     insuranceNumber,
-//     gender,
-//     DoB,
-//     occupation,
-//   } = req.body;
+//IntakeRoutes
+// app.use("/api/patients", intakeRouter)
 
-//   const test = patientsModel.create({
-//     surname,
-//     lastname,
-//     phoneNumber,
-//     email,
-//     insuranceNumber,
-//     gender,
-//     DoB,
-//     occupation,
-//   });
-//   res.json(test);
-// });
 
-app.post("/api/patients", async (req, res) => {
-  try {
-    const {
-      surname,
-      lastname,
-      phoneNumber,
-      email,
-      insuranceNumber,
-      gender,
-      DoB,
-      occupation,
-    } = req.body;
-
-    if (!surname || !lastname || !email || !insuranceNumber || !DoB) {
-      return res.status(400).json({
-        error:
-          "Surname, lastname, email, date of birth and insurance number are required for patient creation.",
-      });
-    }
-
-    const patient = await patientsModel.create({
-      surname,
-      lastname,
-      phoneNumber,
-      email,
-      insuranceNumber,
-      gender,
-      DoB,
-      occupation,
-    });
-
-    res.status(201).json({
-      id: patient.id,
-      name: patient.name,
-      surname: patient.surname,
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// post : /api/patients (create patient )
-// app.post("/api/patients", (req, res) => {
-//   try {
-//     const {
-//       surname,
-//       lastname,
-//       phoneNumber,
-//       email,
-//       insuranceNumber,
-//       gender,
-//       DoB,
-//       occupation,
-//     } = req.body;
-//     if (!surname || !lastname || !email || !insuranceNumber || !DoB) {
-//       return res.status(400).json({
-//         error:
-//           "Surname, lastname, email, date of birth and insurance number are required for patient creation.",
-//       });
-//     }
-
-//     //Check if patient exists
-//     const existingPatient = patientsModel.find(
-//       (patient) =>
-//         patient.email === email || patient.insuranceNumber === insuranceNumber
-//     );
-
-//     if (existingPatient) {
-//       return res.status(409).json({
-//         error: "Patient with this data already exists",
-//       });
-//     }
-//     // create a new patient object with ID
-//     const newPatient = {
-//       // id: nextPatientId++,
-//       surname,
-//       lastname,
-//       phoneNumber,
-//       email,
-//       insuranceNumber: insuranceNumber,
-//       gender: gender,
-//       DoB: DoB,
-//       occupation: occupation,
-//     };
-//     patients.push(newPatient);
-
-//     res.status(201).json({
-//       message: "Patient created successfully",
-//       patient: newPatient,
-//     });
-//   } catch (error) {
-//     res.send("error creating patient");
-//   }
-// });
-
-// get : /api/patients (get a list of all patients)
-app.get("/api/patients", (req, res) => {
-  res.send(patients);
-});
-
-// get : /api/patients/:id (get one specific patient by id)
-app.get("/api/patients/:id", (req, res) => {
-  const reqId = Number(req.params.id);
-  const selectedPatient = patients.find((patient) => patient.id === reqId);
-  if (!selectedPatient) {
-    return res.status(404).json({ error: "Patient not found" });
-  }
-  res.json(selectedPatient);
-});
 
 // post : /api/intakes/:patientId (create intake for existing patient)
-app.post("/api/intakes/:patientId", (req, res) => {
-  res.send("This is the intake of this patient ");
-});
+// app.post("/api/intakes/:patientId", async (req, res) => {
+// POST /api/intakes/:patientId
+app.post("/api/intakes/:patientId", async (req, res) => {
+  const { patientId } = req.params;
+  const {
+    chiefComplaint,
+    medicalHistory,
+    mskInjuryHistory,
+    functionalStatus,
+    lifestyleFactors,
+    familySocialHistory,
+    patientGoals,
+    therapistNotes,
+    ...intakeData
+  } = req.body;
 
-// get : /api/intakes/:id (get created intake)
-app.get("/api/intakes/:id", (req, res) => {
-  res.send("This is the selected intake");
+  try {
+    // 1. Check if the patient exists
+    const patient = await patientsModel.findByPk(patientId);
+    if (!patient) {
+      return res.status(404).json({ error: "Patient not found" });
+    }
+
+    // 2. Create the main Intake record with patientId
+    const newIntake = await intakeModel.create({
+      ...intakeData,
+      patientId: patient.id,
+    });
+
+    // 3. Create the associated records and link them to the new intake
+    const relatedRecords = [];
+    if (chiefComplaint) {
+      relatedRecords.push(
+        chiefComplaintModel.create({
+          ...chiefComplaint,
+          intakeId: newIntake.id,
+        })
+      );
+    }
+    if (medicalHistory) {
+      relatedRecords.push(
+        medicalHistoryModel.create({
+          ...medicalHistory,
+          intakeId: newIntake.id,
+        })
+      );
+    }
+    if (mskInjuryHistory) {
+      relatedRecords.push(
+        mskInjuryHistoryModel.create({
+          ...mskInjuryHistory,
+          intakeId: newIntake.id,
+        })
+      );
+    }
+    if (functionalStatus) {
+      relatedRecords.push(
+        functionalStatusModel.create({
+          ...functionalStatus,
+          intakeId: newIntake.id,
+        })
+      );
+    }
+    if (lifestyleFactors) {
+      relatedRecords.push(
+        lifestyleFactorsModel.create({
+          ...lifestyleFactors,
+          intakeId: newIntake.id,
+        })
+      );
+    }
+    if (familySocialHistory) {
+      relatedRecords.push(
+        familySocialHistoryModel.create({
+          ...familySocialHistory,
+          intakeId: newIntake.id,
+        })
+      );
+    }
+    if (patientGoals) {
+      relatedRecords.push(
+        patientGoalsModel.create({ ...patientGoals, intakeId: newIntake.id })
+      );
+    }
+    if (therapistNotes) {
+      relatedRecords.push(
+        therapistNotesModel.create({
+          ...therapistNotes,
+          intakeId: newIntake.id,
+        })
+      );
+    }
+
+    await Promise.all(relatedRecords);
+
+    // 4. Respond with the created intake and its associations
+    const completeIntake = await intakeModel.findByPk(newIntake.id, {
+      include: [
+        { model: chiefComplaintModel },
+        { model: medicalHistoryModel },
+        { model: mskInjuryHistoryModel },
+        { model: functionalStatusModel },
+        { model: lifestyleFactorsModel },
+        { model: familySocialHistoryModel },
+        { model: patientGoalsModel },
+        { model: therapistNotesModel },
+      ],
+    });
+
+    res.status(201).json(completeIntake);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Failed to create intake", details: error.message });
+  }
 });
 
 // get : /api/intakes (get only active intakes)
-app.get("/api/intakes/active", (req, res) => {
-  res.send("These are active intakes");
-});
+app.get("/api/intakes/active", async (req, res) => {
+  try {
+    // Find all intake records that are not yet completed
+    const activeIntakes = await intakeModel.findAll({
+      where: {
+        status: ["pending", "in progress"],
+      },
+      // Include all associated models for each active intake
+      include: [
+        { model: patientsModel },
+        { model: chiefComplaintModel },
+        { model: medicalHistoryModel },
+        { model: mskInjuryHistoryModel },
+        { model: functionalStatusModel },
+        { model: lifestyleFactorsModel },
+        { model: familySocialHistoryModel },
+        { model: patientGoalsModel },
+        { model: therapistNotesModel },
+      ],
+    });
 
-// get : /api/intakes/all (get all intakes)
-app.get("/api/intakes", (req, res) => {
-  res.send("These are all existing intakes");
+    if (!activeIntakes) {
+      return res.status(404).json({ message: "No active intakes found." });
+    }
+
+    res.status(200).json(activeIntakes);
+  } catch (error) {
+    console.error("Error retrieving active intakes:", error);
+    res.status(500).json({
+      error: "Failed to retrieve active intakes",
+      details: error.message,
+    });
+  }
 });
 
 // get : /api/intakes/completed (get only completed intakes)
-app.get("/api/intakes/completed", (req, res) => {
-  res.send("These are all completed intakes");
+app.get("/api/intakes/completed", async (req, res) => {
+  try {
+    const completedIntakes = await intakeModel.findAll({
+      where: {
+        status: "completed",
+      },
+      include: [
+        { model: patientsModel },
+        { model: chiefComplaintModel },
+        { model: medicalHistoryModel },
+        { model: mskInjuryHistoryModel },
+        { model: functionalStatusModel },
+        { model: lifestyleFactorsModel },
+        { model: familySocialHistoryModel },
+        { model: patientGoalsModel },
+        { model: therapistNotesModel },
+      ],
+    });
+
+    if (!completedIntakes || completedIntakes.length === 0) {
+      return res.status(404).json({ message: "No completed intakes found." });
+    }
+
+    res.status(200).json(completedIntakes);
+  } catch (error) {
+    console.error("Error retrieving completed intakes:", error);
+    res.status(500).json({
+      error: "Failed to retrieve completed intakes",
+      details: error.message,
+    });
+  }
 });
 
-// get : /api/intakes/:patientId (get all intakes from patientId)
-app.get("/api/intakes/patientId", (req, res) => {
-  res.send("These are all intakes from patientId");
+// get : /api/byPatient/:patientId (get all intakes from patientId)
+app.get("/api/byPatient/:patientId", async (req, res) => {
+  const { patientId } = req.params;
+
+  try {
+    const patientIntakes = await intakeModel.findAll({
+      where: {
+        patientId: patientId,
+      },
+      include: [
+        { model: patientsModel },
+        { model: chiefComplaintModel },
+        { model: medicalHistoryModel },
+        { model: mskInjuryHistoryModel },
+        { model: functionalStatusModel },
+        { model: lifestyleFactorsModel },
+        { model: familySocialHistoryModel },
+        { model: patientGoalsModel },
+        { model: therapistNotesModel },
+      ],
+    });
+
+    if (!patientIntakes || patientIntakes.length === 0) {
+      return res
+        .status(404)
+        .json({
+          message: `No intakes found for patient with ID ${patientId}.`,
+        });
+    }
+
+    res.status(200).json(patientIntakes);
+  } catch (error) {
+    console.error("Error retrieving patient intakes:", error);
+    res.status(500).json({
+      error: "Failed to retrieve patient intakes",
+      details: error.message,
+    });
+  }
+});
+
+// get : /api/intakes/:id (get created intake)
+app.get("/api/intakes/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const intake = await intakeModel.findByPk(id, {
+    include: [
+      { model: patientsModel },
+      { model: chiefComplaintModel },
+      { model: medicalHistoryModel },
+      { model: mskInjuryHistoryModel },
+      { model: functionalStatusModel },
+      { model: lifestyleFactorsModel },
+      { model: familySocialHistoryModel },
+      { model: patientGoalsModel },
+      { model: therapistNotesModel },
+    ],
+  });
+  if (!intake) {
+    return res.status(404).json({ error: "Intake record not found." });
+  }
+  res.status(200).json(intake);
+});
+
+// get : /api/intakes/all (get all intakes)
+app.get("/api/intakes", async (req, res) => {
+  try {
+    const allIntakes = await intakeModel.findAll({
+      include: [
+        { model: patientsModel },
+        { model: chiefComplaintModel },
+        { model: medicalHistoryModel },
+        { model: mskInjuryHistoryModel },
+        { model: functionalStatusModel },
+        { model: lifestyleFactorsModel },
+        { model: familySocialHistoryModel },
+        { model: patientGoalsModel },
+        { model: therapistNotesModel },
+      ],
+    });
+
+    if (!allIntakes || allIntakes.length === 0) {
+      return res.status(404).json({ message: "No intakes found." });
+    }
+
+    res.status(200).json(allIntakes);
+  } catch (error) {
+    console.error("Error retrieving all intakes:", error);
+    res.status(500).json({
+      error: "Failed to retrieve all intakes",
+      details: error.message,
+    });
+  }
 });
 
 // might be implemented in future phases:

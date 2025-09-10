@@ -16,6 +16,13 @@ const intakeModel = sequelize.define(
       allowNull: false,
       defaultValue: 'pending',
     },
+     patientId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Patients", // This must match the table name of your patientsModel
+        key: "id",
+      }}, 
     medicalHistory: {
       type: DataTypes.TEXT,
       allowNull: true, 
@@ -38,7 +45,7 @@ const intakeModel = sequelize.define(
     },
     patientGoals: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     therapistNotes: {
       type: DataTypes.TEXT,
@@ -51,19 +58,3 @@ const intakeModel = sequelize.define(
 );
 
 module.exports = intakeModel;
-
-
-//Intake=
-//   {
-//   "Id",
-//   "Status": {pending, in progress, completed}
-//   "patientId",
-//   "Chief Complaint ID",
-//   "Medical History",
-//   "Musculoskeletal / Injury History",
-//   "Functional Status",
-//   "Lifestyle Factors",
-//   "Family & Social History",
-//   "Patient Goals",
-//   "Therapist Notes"
-//   }

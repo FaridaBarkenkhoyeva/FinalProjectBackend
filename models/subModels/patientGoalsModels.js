@@ -14,11 +14,10 @@ const patientGoalsModel = sequelize.define(
     },
     shortTermGoals: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      
     },
     longTermGoals: {
       type: DataTypes.TEXT,
-      allowNull: false,
     },
   },
   {
