@@ -62,12 +62,17 @@ app.use("/api/byPatient", byPatientRouter);
 //   res.send("This intake is created and therefore patientId is also created")
 // })
 
-
-
 // create assessment for specific patientId
-app.post("/api/patients/patientId/assessment")
+app.post("/api/patients/:patientId/assessment", (req, res) => {
+  res.send("this endpoint works");
+});
 
+// get assessment for specific patientId
+app.get("/api/patients/:patientId/assessment/:assessmentId", (req, res) => {
+  res.send("this endpoint works");
+});
 
+// for creating the reassessments the same endpoints are used on different times.
 
 app.listen(3000, () => {
   `This server is running on port: ${port}`;
