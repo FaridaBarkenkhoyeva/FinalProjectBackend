@@ -27,31 +27,14 @@ const assessment = sequelize.define(
     observationAndInspection: {
       type: DataTypes.JSON,
       allowNull: true,
-      defaultValue: {
-        postureAssessment: null,
-        gaitAnalysis: null,
-        skinInspection: null,
-      },
     },
     rom: {
       type: DataTypes.JSON,
       allowNull: true,
-      defaultValue: {
-        activeROM: {}, 
-        passiveROM: {}, 
-        comparison: null,
-      },
     },
     manualMuscleTesting: {
       type: DataTypes.JSON,
       allowNull: true,
-      defaultValue: {
-        shoulder: { flexion: null, abduction: null },
-        elbow: { flexion: null, extension: null },
-        hip: { flexion: null, extension: null },
-        knee: { flexion: null, extension: null },
-        ankle: { dorsiflexion: null, plantarflexion: null },
-      },
     },
     neurologicalScreening: {
       type: DataTypes.JSON,
@@ -75,7 +58,7 @@ const assessment = sequelize.define(
     },
   },
   {
-    timestamps: true, //for tracking assessment and reassessment
+    timestamps: true, //for tracking of reassessment 
   }
 );
 
