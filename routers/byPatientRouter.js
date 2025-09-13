@@ -5,3 +5,5 @@ const byPatientRouter = Router();
 
 byPatientRouter.get("/:patientId", byPatientController);
 module.exports = byPatientRouter;
+
+

@@ -1,8 +1,5 @@
 const express = require("express");
 
-const app = express();
-app.use(express.json());
-
 const dotenv = require("dotenv");
 const chiefComplaintModel = require("./models/subModels/chiefComplaintModel");
 const familySocialHistoryModel = require("./models/subModels/familySocialHistoryModel");
@@ -19,11 +16,14 @@ const associationsPhase1 = require("./associationsPhase1");
 const patientRouter = require("./routers/patientRoutes");
 const intakeRouter = require("./routers/intakeRoutes");
 const byPatientRouter = require("./routers/byPatientRouter");
-
+const cors = require("cors");
 dotenv.config();
+const app = express();
+
+app.use(express.json());
+app.use(cors());
 
 const port = 3000;
-
 
 const syncDatabase = async () => {
   try {
@@ -46,15 +46,14 @@ app.get("/api/", async (req, res) => {
   res.send(n);
 });
 
-
 //PatientRoutes
-app.use("/api/patients", patientRouter)
+app.use("/api/patients", patientRouter);
 
 //IntakeRoutes
-app.use("/api/intakes", intakeRouter)
+app.use("/api/intakes", intakeRouter);
 
 //byPatientRoutes
-app.use("/api/byPatient", byPatientRouter)
+app.use("/api/byPatient", byPatientRouter);
 
 // might be implemented in future phases:
 // put :/api/intakes/:id (update intake)

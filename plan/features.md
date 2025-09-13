@@ -1,24 +1,24 @@
 1. user can create new patient
-user can have a list of active patients 
+   user can have a list of active patients
 2. user can create intake with initiated data, for new patient.
-User has to do the assessment of the patient
-user can see assessment next to generated intake
-3. user to create goals and plan for patient - user can also see the generated assessment 
-4. user can do the re-assessment tests during the last session. 
+   User has to do the assessment of the patient
+   user can see assessment next to generated intake
+3. user to create goals and plan for patient - user can also see the generated assessment
+4. user can do the re-assessment tests during the last session.
 5. user creates endevaluation of patients treatment flow and share 7. user can check sessions and patient list from dashboard 8. user can plan the schedule 9. user can sign-up and log in
 
-2. Backend:
+6. Backend:
    with endpoints and variables
    postman for the endpoints
    organize the project into files => start splitting into folder from the start!
    build/text the functions (get all post / rent a car)
    setup CORS for frontend calls
    migrate data
-3. Database: sql, sequelize
+7. Database: sql, sequelize
    create car table and convert all controllers "not related to renting"
    create rent table and convert ...
 
-4. Frontend:
+8. Frontend:
    Struction the project (components, pages, layouts...)
    setup (router, context api, tailwind, daisyUI)
    setup CORS on the backend
@@ -29,7 +29,7 @@ Phases
 - Phase 1
   user can create intake with initiated data, for new patient.
   Patient = {"id" (PK), "surname", "lastname", "phoneNumber", "email", "insurance number", gender, DoB, occupation}
-  
+
   Intake=
   {
   "Id",
@@ -87,9 +87,9 @@ Additional comments }
 
 Backend Routes
 
-// create patient (1 time), then create intake, next time a patient visits for another treatment case, you create a new intake for the same patient. 
+// create patient (1 time), then create intake, next time a patient visits for another treatment case, you create a new intake for the same patient.
 
-post : /api/patients (create patient ) apply api's 
+post : /api/patients (create patient ) apply api's
 get : /api/patients (get a list of all patients)
 get : /api/patients/:id (get one specific patient by id)
 post : /api/intakes/:patientId (create intake for existing patient)
@@ -100,35 +100,54 @@ get : /api/intakes/all (get all intakes)
 get : /api/intakes/completed (get only completed intakes)
 get : /api/intakes/:patientId (get all intakes from patientId)
 
-
 might be implemented in future phases:
 put :/api/intakes/:id (update intake)
 delete : /api/intakes/:id (delete intake)
 post : /api/intakes (create intake from non existent patient)
 
-
 front-end pages
 wireframe miro prompt
-create a wireframe for physiotherapist. layout: simple, professional and minimal, more blueish of color. First page is dashboard, left side of dashboard ; a list of active patients, on the right side is weekly schedule. 
+create a wireframe for physiotherapist. layout: simple, professional and minimal, more blueish of color. First page is dashboard, left side of dashboard ; a list of active patients, on the right side is weekly schedule.
 Physio can create a patient (Patient = {"id" (PK), "surname", "lastname", "phoneNumber", "email", "insurance number", gender, DoB, occupation}) by adding with button in dashboard, this adds patient to list of patients and jumps to next screen: patient intake form. (Intake=
-  {
-  "Id",
-  "patientId",
-  "Chief Complaint ID",
-  "Medical History",
-  "Musculoskeletal / Injury History",
-  "Functional Status",
-  "Lifestyle Factors",
-  "Family & Social History",
-  "Patient Goals",
-  "Therapist Notes"
-  })
-
-
+{
+"Id",
+"patientId",
+"Chief Complaint ID",
+"Medical History",
+"Musculoskeletal / Injury History",
+"Functional Status",
+"Lifestyle Factors",
+"Family & Social History",
+"Patient Goals",
+"Therapist Notes"
+})
 
 - Phase 2
   user can create and add assessments to patientCase
   Assessment = {"patientId", "Date", "observation & inspection", "ROM", "MST", "Neurological Screening", "Functional Tests", "Special Tests (As Needed)", "Pain Assessment", "Therapist Notes"}
+
+  submodals:
+
+"observation & inspection" : { "posture assessment (standing/sitting alignment)", "Gait analysis (walking pattern, symmetry, stability)", "Skin inspection (scars, swelling, redness, bruising)" }
+
+"ROM": { "Active ROM (patient moves independently)", "Passive ROM (therapist moves the limb)", "Compare left vs right"}
+
+"Manual muscle testing (graded 0–5)" : {"Shoulder flexion/abduction" , "Elbow flexion/extension", "Hip flexion/extension", "Knee flexion/extension", "Ankle dorsiflexion/plantarflexion" }
+
+"Neurological Screening": {"Sit-to-stand test (reps in 30s)", "Timed Up and Go (TUG) (s)", "6-Minute Walk Test (6MWT) (distance in m)", "Balance tests (single-leg stance time, Romberg)"}
+
+    "Balance tests" : {"single leg stance", "Romberg"}
+
+"Special Tests (As Needed)" : {"Neck/Back", "shoulder", "Knee", "Ankle"}
+
+    "Neck/Back": {"Straight Leg Raise (SLR)", "Spurling’s Test"}
+    "Shoulder": {"Neer’s Test", "Hawkins-Kennedy"}
+    "Knee": {"Lachman Test", "McMurray’s Test"}
+    "Ankle" : {"Anterior Drawer Test", "Thompson Test"}
+
+"Pain Assessment": {"Pain scale (0–10)", "Location / radiation", "Aggrevating factors", "Relieving factors"}
+
+"Therapist Notes" : {"Summary of findings", "Initial impression/plan", "Response to treatment"}
 
 - Phase 3
   user to create goals and plan for patient
@@ -143,4 +162,4 @@ Physio can create a patient (Patient = {"id" (PK), "surname", "lastname", "phone
   }
 
 
-
+  

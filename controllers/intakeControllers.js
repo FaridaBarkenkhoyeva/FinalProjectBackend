@@ -216,37 +216,63 @@ const intakeControllers = {
     res.status(200).json(intake);
   },
 
+  allIntakes: async (req, res) => {
+    try {
+      const allIntakes = await intakeModel.findAll({
+        include: [
+          { model: patientsModel },
+          { model: chiefComplaintModel },
+          { model: medicalHistoryModel },
+          { model: mskInjuryHistoryModel },
+          { model: functionalStatusModel },
+          { model: lifestyleFactorsModel },
+          { model: familySocialHistoryModel },
+          { model: patientGoalsModel },
+          { model: therapistNotesModel },
+        ],
+      });
 
-  allIntakes : async (req, res) => {
-  try {
-    const allIntakes = await intakeModel.findAll({
-      include: [
-        { model: patientsModel },
-        { model: chiefComplaintModel },
-        { model: medicalHistoryModel },
-        { model: mskInjuryHistoryModel },
-        { model: functionalStatusModel },
-        { model: lifestyleFactorsModel },
-        { model: familySocialHistoryModel },
-        { model: patientGoalsModel },
-        { model: therapistNotesModel },
-      ],
-    });
+      if (!allIntakes || allIntakes.length === 0) {
+        return res.status(404).json({ message: "No intakes found." });
+      }
 
-    if (!allIntakes || allIntakes.length === 0) {
-      return res.status(404).json({ message: "No intakes found." });
+      res.status(200).json(allIntakes);
+    } catch (error) {
+      console.error("Error retrieving all intakes:", error);
+      res.status(500).json({
+        error: "Failed to retrieve all intakes",
+        details: error.message,
+      });
     }
+  },
 
-    res.status(200).json(allIntakes);
-  } catch (error) {
-    console.error("Error retrieving all intakes:", error);
-    res.status(500).json({
-      error: "Failed to retrieve all intakes",
-      details: error.message,
-    });
-  }
-}
+  updateIntakeStatus: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
 
+      const intake = await intakeModel.findByPk(id);
+      if (!intake) {
+        return res.status(404).json({ message: "Intake not found" });
+      }
+
+      intake.status = status;
+      await intake.save();
+
+      // To send back a complete updated object, you can fetch it again with includes
+      const updatedIntake = await intakeModel.findByPk(id, {
+        include: [
+          { model: patientsModel },
+          { model: chiefComplaintModel },
+          // Add other sub-models here
+        ],
+      });
+
+      res.json(updatedIntake);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating intake status", error });
+    }
+  },
 };
 
 module.exports = intakeControllers;
