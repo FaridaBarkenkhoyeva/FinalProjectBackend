@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../db/dbConnection");
 
-const neurologicalScreening = sequelize.define(
+const neurologicalScreeningModel = sequelize.define(
   "NeurologicalScreening",
   {
     id: {
@@ -44,4 +44,4 @@ const neurologicalScreening = sequelize.define(
   }
 );
 
-module.exports = neurologicalScreening;
+module.exports = neurologicalScreeningModel;

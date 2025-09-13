@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../db/dbConnection");
 
-const therapistNote = sequelize.define(
+const therapistNoteModel = sequelize.define(
   "TherapistNote",
   {
     id: {
@@ -21,7 +21,7 @@ const therapistNote = sequelize.define(
     summaryOfFindings: {
       type: DataTypes.TEXT,
       allowNull: true,
-    },
+    }, 
     initialImpressionAndPlan: {
       type: DataTypes.TEXT,
       allowNull: true,
@@ -36,4 +36,4 @@ const therapistNote = sequelize.define(
   }
 );
 
-module.exports = therapistNote;
+module.exports = therapistNoteModel;

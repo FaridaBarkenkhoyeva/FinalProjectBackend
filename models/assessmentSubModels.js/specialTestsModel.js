@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../db/dbConnection");
 
-const specialTest = sequelize.define(
+const specialTestModel = sequelize.define(
   "SpecialTest",
   {
     id: {
@@ -39,4 +39,4 @@ const specialTest = sequelize.define(
   }
 );
 
-module.exports = specialTest;
+module.exports = specialTestModel;

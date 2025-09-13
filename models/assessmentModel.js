@@ -3,7 +3,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/dbConnection");
 
-const assessment = sequelize.define(
+const assessmentModel = sequelize.define(
   "Assessment",
   {
     id: {
@@ -62,4 +62,4 @@ const assessment = sequelize.define(
   }
 );
 
-module.exports = assessment;
+module.exports = assessmentModel;

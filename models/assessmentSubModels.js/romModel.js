@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../db/dbConnection");
 
-const rom = sequelize.define(
+const romModel = sequelize.define(
   "Rom",
   {
     id: {
@@ -36,4 +36,4 @@ const rom = sequelize.define(
   }
 );
 
-module.exports = rom;
+module.exports = romModel;

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../db/dbConnection");
 
-const manualMuscleTest = sequelize.define(
+const manualMuscleTestModel = sequelize.define(
   "ManualMuscleTest",
   {
     id: {
@@ -39,4 +39,4 @@ const manualMuscleTest = sequelize.define(
   }
 );
 
-module.exports = manualMuscleTest;
+module.exports = manualMuscleTestModel;

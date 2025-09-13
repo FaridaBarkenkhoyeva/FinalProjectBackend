@@ -1,16 +1,8 @@
 const express = require("express");
 
 const dotenv = require("dotenv");
-const chiefComplaintModel = require("./models/subModels/chiefComplaintModel");
-const familySocialHistoryModel = require("./models/subModels/familySocialHistoryModel");
-const functionalStatusModel = require("./models/subModels/functionalStatusModel");
-const lifestyleFactorsModel = require("./models/subModels/lifestyleFactorsModel");
-const medicalHistoryModel = require("./models/subModels/medicalHistoryModel");
-const mskInjuryHistoryModel = require("./models/subModels/mskInjuryHistoryModel");
-const patientGoalsModel = require("./models/subModels/patientGoalsModels");
-const therapistNotesModel = require("./models/subModels/therapistNotesModel");
+
 const intakeModel = require("./models/intakeModel");
-const patientsModel = require("./models/patientsModel");
 const sequelize = require("./db/dbConnection");
 const associationsPhase1 = require("./associationsPhase1");
 const patientRouter = require("./routers/patientRoutes");
@@ -69,6 +61,13 @@ app.use("/api/byPatient", byPatientRouter);
 // app.post("/api/intakes", (req, res) => {
 //   res.send("This intake is created and therefore patientId is also created")
 // })
+
+
+
+// create assessment for specific patientId
+app.post("/api/patients/patientId/assessment")
+
+
 
 app.listen(3000, () => {
   `This server is running on port: ${port}`;

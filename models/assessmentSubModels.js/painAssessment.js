@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../db/dbConnection");
 
-const painAssessment = sequelize.define(
+const painAssessmentModel = sequelize.define(
   "PainAssessment",
   {
     id: {
@@ -44,4 +44,4 @@ const painAssessment = sequelize.define(
   }
 );
 
-module.exports = painAssessment;
+module.exports = painAssessmentModel;

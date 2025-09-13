@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../db/dbConnection");
 
-const observationAndInspection = sequelize.define(
+const observationAndInspectionModel = sequelize.define(
   "ObservationAndInspection",
   {
     id: {
@@ -36,4 +36,4 @@ const observationAndInspection = sequelize.define(
   }
 );
 
-module.exports = observationAndInspection;
+module.exports = observationAndInspectionModel;
