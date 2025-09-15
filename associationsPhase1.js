@@ -10,82 +10,80 @@ const therapistNotesModel = require("./models/intakeSubModels/therapistNotesMode
 const patientsModel = require("./models/patientsModel");
 
 const associationsPhase1 = () => {
-//patient to intake
-patientsModel.hasMany(intakeModel, {
-  foreignKey: "patientId",
-  onDelete: "CASCADE",
-});
-intakeModel.belongsTo(patientsModel, {
-  foreignKey: "patientId",
-});
+  //patient to intake
+  patientsModel.hasMany(intakeModel, {
+    foreignKey: "patientId",
+    onDelete: "CASCADE",
+  });
+  intakeModel.belongsTo(patientsModel, {
+    foreignKey: "patientId",
+  });
 
-// intake to submodals
+  // intake to submodals
 
-intakeModel.hasOne(chiefComplaintModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-chiefComplaintModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
+  intakeModel.hasOne(chiefComplaintModel, {
+    foreignKey: "intakeId",
+    onDelete: "CASCADE",
+  });
+  chiefComplaintModel.belongsTo(intakeModel, {
+    foreignKey: "intakeId",
+  });
 
-intakeModel.hasOne(medicalHistoryModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
+  intakeModel.hasOne(medicalHistoryModel, {
+    foreignKey: "intakeId",
+    onDelete: "CASCADE",
+  });
 
-medicalHistoryModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
+  medicalHistoryModel.belongsTo(intakeModel, {
+    foreignKey: "intakeId",
+  });
 
-intakeModel.hasOne(mskInjuryHistoryModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-mskInjuryHistoryModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
+  intakeModel.hasOne(mskInjuryHistoryModel, {
+    foreignKey: "intakeId",
+    onDelete: "CASCADE",
+  });
+  mskInjuryHistoryModel.belongsTo(intakeModel, {
+    foreignKey: "intakeId",
+  });
 
-intakeModel.hasOne(functionalStatusModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-functionalStatusModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
+  intakeModel.hasOne(functionalStatusModel, {
+    foreignKey: "intakeId",
+    onDelete: "CASCADE",
+  });
+  functionalStatusModel.belongsTo(intakeModel, {
+    foreignKey: "intakeId",
+  });
 
-intakeModel.hasOne(lifestyleFactorsModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-lifestyleFactorsModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
+  intakeModel.hasOne(lifestyleFactorsModel, {
+    foreignKey: "intakeId",
+    onDelete: "CASCADE",
+  });
+  lifestyleFactorsModel.belongsTo(intakeModel, {
+    foreignKey: "intakeId",
+  });
 
-intakeModel.hasOne(familySocialHistoryModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-familySocialHistoryModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
+  intakeModel.hasOne(familySocialHistoryModel, {
+    foreignKey: "intakeId",
+    onDelete: "CASCADE",
+  });
+  familySocialHistoryModel.belongsTo(intakeModel, {
+    foreignKey: "intakeId",
+  });
 
-intakeModel.hasOne(patientGoalsModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-patientGoalsModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
+  intakeModel.hasOne(patientGoalsModel, {
+    foreignKey: "intakeId",
+    onDelete: "CASCADE",
+  });
+  patientGoalsModel.belongsTo(intakeModel, {
+    foreignKey: "intakeId",
+  });
 
-intakeModel.hasOne(therapistNotesModel, {
-  foreignKey: "intakeId",
-  onDelete: "CASCADE",
-});
-therapistNotesModel.belongsTo(intakeModel, {
-  foreignKey: "intakeId",
-});
-
-
-}
+  intakeModel.hasOne(therapistNotesModel, {
+    foreignKey: "intakeId",
+    onDelete: "CASCADE",
+  });
+  therapistNotesModel.belongsTo(intakeModel, {
+    foreignKey: "intakeId",
+  });
+};
 module.exports = associationsPhase1;

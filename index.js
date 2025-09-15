@@ -9,20 +9,20 @@ const patientRouter = require("./routers/patientRoutes");
 const intakeRouter = require("./routers/intakeRoutes");
 const byPatientRouter = require("./routers/byPatientRouter");
 const cors = require("cors");
+const associationsPhase2 = require("./associationsPhase2");
 dotenv.config();
 const app = express();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 const port = 3000;
-
 const syncDatabase = async () => {
   try {
     await sequelize.authenticate();
     console.log("Database connected successfully");
 
-    sequelize.sync();
+    await sequelize.sync();
     console.log("Database tables created successfully");
   } catch (error) {
     console.log("Unable to connect to database:", error);
@@ -32,6 +32,7 @@ const syncDatabase = async () => {
 syncDatabase();
 
 associationsPhase1();
+associationsPhase2();
 //endpoint to dashboard
 app.get("/api/", async (req, res) => {
   const n = await intakeModel.findAll();
@@ -63,14 +64,14 @@ app.use("/api/byPatient", byPatientRouter);
 // })
 
 // create assessment for specific patientId
-app.post("/api/patients/:patientId/assessment", (req, res) => {
-  res.send("this endpoint works");
-});
+// app.post("/api/patients/:patientId/assessment", (req, res) => {
+//   res.send("this endpoint works");
+// });
 
 // get assessment for specific patientId
-app.get("/api/patients/:patientId/assessment/:assessmentId", (req, res) => {
-  res.send("this endpoint works");
-});
+// app.get("/api/patients/:patientId/assessment/:assessmentId", (req, res) => {
+//   res.send("this endpoint works");
+// });
 
 // for creating the reassessments the same endpoints are used on different times.
 

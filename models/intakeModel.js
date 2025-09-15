@@ -1,8 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/dbConnection");
 
-
-// 
 const intakeModel = sequelize.define(
   "Intake",
   {
@@ -12,20 +10,21 @@ const intakeModel = sequelize.define(
       autoIncrement: true,
     },
     status: {
-      type: DataTypes.ENUM('pending', 'in progress', 'completed'),
+      type: DataTypes.ENUM("pending", "in progress", "completed"),
       allowNull: false,
-      defaultValue: 'pending',
+      defaultValue: "in progress",
     },
-     patientId: {
+    patientId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Patients", // This must match the table name of your patientsModel
+        model: "Patients",
         key: "id",
-      }}, 
+      },
+    },
     medicalHistory: {
       type: DataTypes.TEXT,
-      allowNull: true, 
+      allowNull: true,
     },
     musculoskeletalHistory: {
       type: DataTypes.TEXT,

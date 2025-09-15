@@ -5,7 +5,9 @@ const intakeRouter = Router();
 
 intakeRouter.post("/:patientId", intakeControllers.createIntakeForPt);
 
-intakeRouter.get("/active", intakeControllers.activeIntakes);
+intakeRouter.get("/pending", intakeControllers.pendingIntakes);
+
+intakeRouter.get("/inprogress", intakeControllers.inProgressIntakes);
 
 intakeRouter.get("/completed", intakeControllers.completedIntakes);
 
@@ -18,4 +20,4 @@ intakeRouter.patch("/:id/status", intakeControllers.updateIntakeStatus);
 
 module.exports = intakeRouter;
 
-module.exports = intakeRouter;
+

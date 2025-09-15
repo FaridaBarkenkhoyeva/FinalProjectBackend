@@ -58,7 +58,7 @@ const assessmentModel = sequelize.define(
     },
   },
   {
-    timestamps: true, //for tracking of reassessment 
+    timestamps: true, //for tracking of reassessment
   }
 );
 

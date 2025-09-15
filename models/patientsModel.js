@@ -48,5 +48,3 @@ const patientsModel = sequelize.define(
 );
 
 module.exports = patientsModel;
-
-// Patient = {"id" (PK), "surname", "lastname", "phoneNumber", "email", "insurance number", gender, DoB, occupation}
