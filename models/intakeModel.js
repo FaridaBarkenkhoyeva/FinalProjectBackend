@@ -14,13 +14,9 @@ const intakeModel = sequelize.define(
       allowNull: false,
       defaultValue: "in progress",
     },
-    patientId: {
+     patientId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: "Patients",
-        key: "id",
-      },
     },
     medicalHistory: {
       type: DataTypes.TEXT,

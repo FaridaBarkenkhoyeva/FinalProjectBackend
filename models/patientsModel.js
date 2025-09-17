@@ -34,7 +34,8 @@ const patientsModel = sequelize.define(
       allowNull: false,
     },
     DoB: {
-      type: DataTypes.RANGE(DataTypes.DATEONLY),
+ 
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     occupation: {

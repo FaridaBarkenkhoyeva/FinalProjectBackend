@@ -1,14 +1,21 @@
 const sequelize = require("../db/dbConnection");
 const intakeModel = require("../models/intakeModel");
+const chiefComplaintModel = require("../models/intakeSubModels/chiefComplaintModel");
+const familySocialHistoryModel = require("../models/intakeSubModels/familySocialHistoryModel");
+const functionalStatusModel = require("../models/intakeSubModels/functionalStatusModel");
+const lifestyleFactorsModel = require("../models/intakeSubModels/lifestyleFactorsModel");
+const medicalHistoryModel = require("../models/intakeSubModels/medicalHistoryModel");
+const mskInjuryHistoryModel = require("../models/intakeSubModels/mskInjuryHistoryModel");
+const patientGoalsModel = require("../models/intakeSubModels/patientGoalsModels");
+const therapistNotesModel = require("../models/intakeSubModels/therapistNotesModel");
 const patientsModel = require("../models/patientsModel");
-const chiefComplaintModel = require("../models/subModels/chiefComplaintModel");
-const familySocialHistoryModel = require("../models/subModels/familySocialHistoryModel");
-const functionalStatusModel = require("../models/subModels/functionalStatusModel");
-const lifestyleFactorsModel = require("../models/subModels/lifestyleFactorsModel");
-const medicalHistoryModel = require("../models/subModels/medicalHistoryModel");
-const mskInjuryHistoryModel = require("../models/subModels/mskInjuryHistoryModel");
-const patientGoalsModel = require("../models/subModels/patientGoalsModels");
-const therapistNotesModel = require("../models/subModels/therapistNotesModel");
+// const familySocialHistoryModel = require("../models/subModels/familySocialHistoryModel");
+// const functionalStatusModel = require("../models/subModels/functionalStatusModel");
+// const lifestyleFactorsModel = require("../models/subModels/lifestyleFactorsModel");
+// const medicalHistoryModel = require("../models/subModels/medicalHistoryModel");
+// const mskInjuryHistoryModel = require("../models/subModels/mskInjuryHistoryModel");
+// const patientGoalsModel = require("../models/subModels/patientGoalsModels");
+// const therapistNotesModel = require("../models/subModels/therapistNotesModel");
 
 const seedDatabase = async () => {
   try {
@@ -22,8 +29,8 @@ const seedDatabase = async () => {
       email: "john.smith@email.com",
       insuranceNumber: "INS123456789",
       gender: "male",
-      DoB: { start: new Date('1985-03-15'), end: new Date('1985-03-15') },
-      occupation: "Software Engineer"
+      DoB: { start: new Date("1985-03-15"), end: new Date("1985-03-15") },
+      occupation: "Software Engineer",
     });
 
     const intake1 = await intakeModel.create({
@@ -35,7 +42,7 @@ const seedDatabase = async () => {
       lifestyleFactors: "Moderately active",
       familySocialHistory: "Parents both healthy",
       patientGoals: "Maintain current health status",
-      therapistNotes: "Patient in good health"
+      therapistNotes: "Patient in good health",
     });
 
     await chiefComplaintModel.create({
@@ -43,27 +50,27 @@ const seedDatabase = async () => {
       primaryReason: "Routine check-up",
       onsetOfSymptoms: "N/A",
       duration: "N/A",
-      painLevel: 0
+      painLevel: 0,
     });
 
     await familySocialHistoryModel.create({
       intakeId: intake1.id,
       familyMedicalHistory: "Father: hypertension, Mother: diabetes",
-      socialHabits: "Non-smoker, occasional social drinking"
+      socialHabits: "Non-smoker, occasional social drinking",
     });
 
     await functionalStatusModel.create({
       intakeId: intake1.id,
       dailyActivitiesAffected: "None",
       mobilityLevel: "independent",
-      useOfAids: "None"
+      useOfAids: "None",
     });
 
     await lifestyleFactorsModel.create({
       intakeId: intake1.id,
       physicalActivity: "Gym 3 times per week",
       workDemands: "sedentary",
-      hobbiesSports: "Running, swimming"
+      hobbiesSports: "Running, swimming",
     });
 
     await medicalHistoryModel.create({
@@ -71,7 +78,7 @@ const seedDatabase = async () => {
       pastIllnesses: "None",
       surgeries: "Appendectomy (2010)",
       currentMedications: "Multivitamin",
-      allergies: "Penicillin"
+      allergies: "Penicillin",
     });
 
     await mskInjuryHistoryModel.create({
@@ -79,19 +86,19 @@ const seedDatabase = async () => {
       pastIllnesses: "None",
       surgeries: "None",
       currentMedications: "None",
-      allergies: "None"
+      allergies: "None",
     });
 
     await patientGoalsModel.create({
       intakeId: intake1.id,
       shortTermGoals: "Maintain current fitness level",
-      longTermGoals: "Stay healthy and active into old age"
+      longTermGoals: "Stay healthy and active into old age",
     });
 
     await therapistNotesModel.create({
       intakeId: intake1.id,
       observations: "Patient appears healthy and fit",
-      additionalComments: "No concerns at this time"
+      additionalComments: "No concerns at this time",
     });
 
     // Patient 2
@@ -102,8 +109,8 @@ const seedDatabase = async () => {
       email: "sarah.j@email.com",
       insuranceNumber: "INS987654321",
       gender: "female",
-      DoB: { start: new Date('1990-07-22'), end: new Date('1990-07-22') },
-      occupation: "Teacher"
+      DoB: { start: new Date("1990-07-22"), end: new Date("1990-07-22") },
+      occupation: "Teacher",
     });
 
     const intake2 = await intakeModel.create({
@@ -115,7 +122,7 @@ const seedDatabase = async () => {
       lifestyleFactors: "Active lifestyle",
       familySocialHistory: "Family history of asthma",
       patientGoals: "Improve breathing capacity",
-      therapistNotes: "Responding well to treatment"
+      therapistNotes: "Responding well to treatment",
     });
 
     await chiefComplaintModel.create({
@@ -123,27 +130,27 @@ const seedDatabase = async () => {
       primaryReason: "Asthma management",
       onsetOfSymptoms: "Childhood",
       duration: "Chronic",
-      painLevel: 2
+      painLevel: 2,
     });
 
     await familySocialHistoryModel.create({
       intakeId: intake2.id,
       familyMedicalHistory: "Mother: asthma, Father: high cholesterol",
-      socialHabits: "Non-smoker, healthy diet"
+      socialHabits: "Non-smoker, healthy diet",
     });
 
     await functionalStatusModel.create({
       intakeId: intake2.id,
       dailyActivitiesAffected: "Strenuous exercise",
       mobilityLevel: "independent",
-      useOfAids: "Inhaler as needed"
+      useOfAids: "Inhaler as needed",
     });
 
     await lifestyleFactorsModel.create({
       intakeId: intake2.id,
       physicalActivity: "Walking daily, yoga",
       workDemands: "sedentary",
-      hobbiesSports: "Reading, gardening"
+      hobbiesSports: "Reading, gardening",
     });
 
     await medicalHistoryModel.create({
@@ -151,7 +158,7 @@ const seedDatabase = async () => {
       pastIllnesses: "Childhood asthma",
       surgeries: "Tonsillectomy (2001)",
       currentMedications: "Albuterol inhaler, corticosteroid inhaler",
-      allergies: "Dust, pollen, pet dander"
+      allergies: "Dust, pollen, pet dander",
     });
 
     await mskInjuryHistoryModel.create({
@@ -159,19 +166,19 @@ const seedDatabase = async () => {
       pastIllnesses: "None",
       surgeries: "None",
       currentMedications: "None",
-      allergies: "None"
+      allergies: "None",
     });
 
     await patientGoalsModel.create({
       intakeId: intake2.id,
       shortTermGoals: "Reduce asthma symptoms",
-      longTermGoals: "Complete marathon training"
+      longTermGoals: "Complete marathon training",
     });
 
     await therapistNotesModel.create({
       intakeId: intake2.id,
       observations: "Good lung capacity today",
-      additionalComments: "Continue current treatment plan"
+      additionalComments: "Continue current treatment plan",
     });
 
     // Patient 3
@@ -182,8 +189,8 @@ const seedDatabase = async () => {
       email: "c.garcia@email.com",
       insuranceNumber: "INS456789123",
       gender: "male",
-      DoB: { start: new Date('1978-11-30'), end: new Date('1978-11-30') },
-      occupation: "Construction Worker"
+      DoB: { start: new Date("1978-11-30"), end: new Date("1978-11-30") },
+      occupation: "Construction Worker",
     });
 
     const intake3 = await intakeModel.create({
@@ -195,7 +202,7 @@ const seedDatabase = async () => {
       lifestyleFactors: "Physically demanding job",
       familySocialHistory: "No significant family history",
       patientGoals: "Recover from back injury",
-      therapistNotes: "Initial assessment needed"
+      therapistNotes: "Initial assessment needed",
     });
 
     await chiefComplaintModel.create({
@@ -203,27 +210,27 @@ const seedDatabase = async () => {
       primaryReason: "Lower back pain",
       onsetOfSymptoms: "2 weeks ago while lifting",
       duration: "2 weeks",
-      painLevel: 7
+      painLevel: 7,
     });
 
     await familySocialHistoryModel.create({
       intakeId: intake3.id,
       familyMedicalHistory: "Father: arthritis, Mother: healthy",
-      socialHabits: "Social drinker, non-smoker"
+      socialHabits: "Social drinker, non-smoker",
     });
 
     await functionalStatusModel.create({
       intakeId: intake3.id,
       dailyActivitiesAffected: "Lifting, bending, prolonged standing",
       mobilityLevel: "independent",
-      useOfAids: "Back brace"
+      useOfAids: "Back brace",
     });
 
     await lifestyleFactorsModel.create({
       intakeId: intake3.id,
       physicalActivity: "Work-related physical activity",
       workDemands: "heavy_labor",
-      hobbiesSports: "Fishing, watching sports"
+      hobbiesSports: "Fishing, watching sports",
     });
 
     await medicalHistoryModel.create({
@@ -231,7 +238,7 @@ const seedDatabase = async () => {
       pastIllnesses: "Back strain (2018)",
       surgeries: "None",
       currentMedications: "Ibuprofen as needed",
-      allergies: "None"
+      allergies: "None",
     });
 
     await mskInjuryHistoryModel.create({
@@ -239,19 +246,19 @@ const seedDatabase = async () => {
       pastIllnesses: "Back strain (2018)",
       surgeries: "None",
       currentMedications: "Ibuprofen",
-      allergies: "None"
+      allergies: "None",
     });
 
     await patientGoalsModel.create({
       intakeId: intake3.id,
       shortTermGoals: "Reduce pain to level 3",
-      longTermGoals: "Return to full work duties"
+      longTermGoals: "Return to full work duties",
     });
 
     await therapistNotesModel.create({
       intakeId: intake3.id,
       observations: "Limited range of motion in lumbar spine",
-      additionalComments: "Schedule physical therapy evaluation"
+      additionalComments: "Schedule physical therapy evaluation",
     });
 
     // Patient 4
@@ -262,8 +269,8 @@ const seedDatabase = async () => {
       email: "mei.chen@email.com",
       insuranceNumber: "INS234567891",
       gender: "female",
-      DoB: { start: new Date('1995-05-14'), end: new Date('1995-05-14') },
-      occupation: "Graphic Designer"
+      DoB: { start: new Date("1995-05-14"), end: new Date("1995-05-14") },
+      occupation: "Graphic Designer",
     });
 
     const intake4 = await intakeModel.create({
@@ -275,7 +282,7 @@ const seedDatabase = async () => {
       lifestyleFactors: "Computer work",
       familySocialHistory: "Mother: rheumatoid arthritis",
       patientGoals: "Manage wrist pain from repetitive work",
-      therapistNotes: "Good progress with ergonomic adjustments"
+      therapistNotes: "Good progress with ergonomic adjustments",
     });
 
     await chiefComplaintModel.create({
@@ -283,27 +290,27 @@ const seedDatabase = async () => {
       primaryReason: "Wrist pain and numbness",
       onsetOfSymptoms: "3 months gradually",
       duration: "3 months",
-      painLevel: 5
+      painLevel: 5,
     });
 
     await familySocialHistoryModel.create({
       intakeId: intake4.id,
       familyMedicalHistory: "Mother: RA, Father: healthy",
-      socialHabits: "Non-smoker, vegetarian diet"
+      socialHabits: "Non-smoker, vegetarian diet",
     });
 
     await functionalStatusModel.create({
       intakeId: intake4.id,
       dailyActivitiesAffected: "Typing, writing, gripping",
       mobilityLevel: "independent",
-      useOfAids: "Wrist splint at night"
+      useOfAids: "Wrist splint at night",
     });
 
     await lifestyleFactorsModel.create({
       intakeId: intake4.id,
       physicalActivity: "Yoga 2x weekly",
       workDemands: "repetitive_tasks",
-      hobbiesSports: "Painting, hiking"
+      hobbiesSports: "Painting, hiking",
     });
 
     await medicalHistoryModel.create({
@@ -311,7 +318,7 @@ const seedDatabase = async () => {
       pastIllnesses: "None",
       surgeries: "None",
       currentMedications: "NSAIDs as needed",
-      allergies: "None"
+      allergies: "None",
     });
 
     await mskInjuryHistoryModel.create({
@@ -319,19 +326,19 @@ const seedDatabase = async () => {
       pastIllnesses: "Wrist tendinitis",
       surgeries: "None",
       currentMedications: "None",
-      allergies: "None"
+      allergies: "None",
     });
 
     await patientGoalsModel.create({
       intakeId: intake4.id,
       shortTermGoals: "Reduce numbness episodes",
-      longTermGoals: "Prevent surgery need"
+      longTermGoals: "Prevent surgery need",
     });
 
     await therapistNotesModel.create({
       intakeId: intake4.id,
       observations: "Improved grip strength",
-      additionalComments: "Continue ergonomic training"
+      additionalComments: "Continue ergonomic training",
     });
 
     // Patient 5
@@ -342,8 +349,8 @@ const seedDatabase = async () => {
       email: "d.wilson@email.com",
       insuranceNumber: "INS876543219",
       gender: "male",
-      DoB: { start: new Date('1982-12-08'), end: new Date('1982-12-08') },
-      occupation: "Accountant"
+      DoB: { start: new Date("1982-12-08"), end: new Date("1982-12-08") },
+      occupation: "Accountant",
     });
 
     const intake5 = await intakeModel.create({
@@ -355,7 +362,7 @@ const seedDatabase = async () => {
       lifestyleFactors: "Previously active, now sedentary",
       familySocialHistory: "No significant history",
       patientGoals: "Rehabilitate after knee surgery",
-      therapistNotes: "Making good progress in PT"
+      therapistNotes: "Making good progress in PT",
     });
 
     await chiefComplaintModel.create({
@@ -363,27 +370,27 @@ const seedDatabase = async () => {
       primaryReason: "Post-operative knee rehabilitation",
       onsetOfSymptoms: "After surgery 6 weeks ago",
       duration: "6 weeks",
-      painLevel: 4
+      painLevel: 4,
     });
 
     await familySocialHistoryModel.create({
       intakeId: intake5.id,
       familyMedicalHistory: "Parents both healthy",
-      socialHabits: "Non-smoker, occasional alcohol"
+      socialHabits: "Non-smoker, occasional alcohol",
     });
 
     await functionalStatusModel.create({
       intakeId: intake5.id,
       dailyActivitiesAffected: "Walking, climbing stairs, standing",
       mobilityLevel: "assisted",
-      useOfAids: "Crutches, knee brace"
+      useOfAids: "Crutches, knee brace",
     });
 
     await lifestyleFactorsModel.create({
       intakeId: intake5.id,
       physicalActivity: "Physical therapy 3x weekly",
       workDemands: "sedentary",
-      hobbiesSports: "Former basketball player"
+      hobbiesSports: "Former basketball player",
     });
 
     await medicalHistoryModel.create({
@@ -391,7 +398,7 @@ const seedDatabase = async () => {
       pastIllnesses: "None",
       surgeries: "ACL reconstruction (6 weeks ago)",
       currentMedications: "Pain medication as needed",
-      allergies: "None"
+      allergies: "None",
     });
 
     await mskInjuryHistoryModel.create({
@@ -399,23 +406,24 @@ const seedDatabase = async () => {
       pastIllnesses: "Knee ligament tear",
       surgeries: "ACL reconstruction",
       currentMedications: "None",
-      allergies: "None"
+      allergies: "None",
     });
 
     await patientGoalsModel.create({
       intakeId: intake5.id,
       shortTermGoals: "Walk without crutches",
-      longTermGoals: "Return to recreational sports"
+      longTermGoals: "Return to recreational sports",
     });
 
     await therapistNotesModel.create({
       intakeId: intake5.id,
       observations: "Good range of motion improvement",
-      additionalComments: "Continue strengthening exercises"
+      additionalComments: "Continue strengthening exercises",
     });
 
-    console.log("Database seeded successfully with 5 complete patient records!");
-
+    console.log(
+      "Database seeded successfully with 5 complete patient records!"
+    );
   } catch (error) {
     console.error("Error seeding database:", error);
   } finally {
@@ -424,5 +432,3 @@ const seedDatabase = async () => {
 };
 
 seedDatabase();
-
-
