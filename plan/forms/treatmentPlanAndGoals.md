@@ -4,7 +4,7 @@ table
 object in object, look underneath
 ## 1. Short-Term Goals (2–4 weeks)
 - Reduce pain levels by ___/10  
-- Improve range of motion in ___ joint by ___ degrees  
+- Improve range of motion in ___ joint by ___ degrees  (string)
 - Increase muscle strength in ___ (MMT grade from ___ to ___)  
 - Improve functional mobility (e.g., Sit-to-Stand, TUG test)  
 

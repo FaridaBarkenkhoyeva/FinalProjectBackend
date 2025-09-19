@@ -1,26 +1,26 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../db/dbConnection");
+const sequelize = require("../../db/dbConnection");
 
-const assessmentModel = sequelize.define(
-  "Assessment",
+const longTermGoal = sequelize.define(
+  "LongTermGoal",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    intakeId: {
+    // Foreign key to link this goal to a specific treatment plan.
+    treatmentPlanId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "Intakes",
+        model: "TreatmentPlans",
         key: "id",
       },
     },
-    assessmentDate: {
-      type: DataTypes.DATE,
+    description: {
+      type: DataTypes.TEXT,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
   },
   {
@@ -28,4 +28,4 @@ const assessmentModel = sequelize.define(
   }
 );
 
-module.exports = assessmentModel;
+module.exports = longTermGoal;

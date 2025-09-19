@@ -34,7 +34,8 @@ const patientsModel = sequelize.define(
       allowNull: false,
     },
     DoB: {
-      type: DataTypes.RANGE(DataTypes.DATEONLY),
+ 
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     occupation: {
@@ -48,5 +49,3 @@ const patientsModel = sequelize.define(
 );
 
 module.exports = patientsModel;
-
-// Patient = {"id" (PK), "surname", "lastname", "phoneNumber", "email", "insurance number", gender, DoB, occupation}

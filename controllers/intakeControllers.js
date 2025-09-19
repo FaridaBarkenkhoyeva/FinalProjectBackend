@@ -1,13 +1,13 @@
 const intakeModel = require("../models/intakeModel");
 const patientsModel = require("../models/patientsModel");
-const chiefComplaintModel = require("../models/subModels/chiefComplaintModel");
-const familySocialHistoryModel = require("../models/subModels/familySocialHistoryModel");
-const functionalStatusModel = require("../models/subModels/functionalStatusModel");
-const lifestyleFactorsModel = require("../models/subModels/lifestyleFactorsModel");
-const medicalHistoryModel = require("../models/subModels/medicalHistoryModel");
-const mskInjuryHistoryModel = require("../models/subModels/mskInjuryHistoryModel");
-const patientGoalsModel = require("../models/subModels/patientGoalsModels");
-const therapistNotesModel = require("../models/subModels/therapistNotesModel");
+const chiefComplaintModel = require("../models/intakeSubModels/chiefComplaintModel");
+const familySocialHistoryModel = require("../models/intakeSubModels/familySocialHistoryModel");
+const functionalStatusModel = require("../models/intakeSubModels/functionalStatusModel");
+const lifestyleFactorsModel = require("../models/intakeSubModels/lifestyleFactorsModel");
+const medicalHistoryModel = require("../models/intakeSubModels/medicalHistoryModel");
+const mskInjuryHistoryModel = require("../models/intakeSubModels/mskInjuryHistoryModel");
+const patientGoalsModel = require("../models/intakeSubModels/patientGoalsModels");
+const therapistNotesModel = require("../models/intakeSubModels/therapistNotesModel");
 
 const intakeControllers = {
   createIntakeForPt: async (req, res) => {
@@ -25,19 +25,16 @@ const intakeControllers = {
     } = req.body;
 
     try {
-      // 1. Check if the patient exists
       const patient = await patientsModel.findByPk(patientId);
       if (!patient) {
         return res.status(404).json({ error: "Patient not found" });
       }
 
-      // 2. Create the main Intake record with patientId
       const newIntake = await intakeModel.create({
         ...intakeData,
         patientId: patient.id,
       });
 
-      // 3. Create the associated records and link them to the new intake
       const relatedRecords = [];
       if (chiefComplaint) {
         relatedRecords.push(
@@ -103,7 +100,6 @@ const intakeControllers = {
 
       await Promise.all(relatedRecords);
 
-      // 4. Respond with the created intake and its associations
       const completeIntake = await intakeModel.findByPk(newIntake.id, {
         include: [
           { model: chiefComplaintModel },
@@ -126,14 +122,44 @@ const intakeControllers = {
     }
   },
 
-  activeIntakes: async (req, res) => {
+  pendingIntakes: async (req, res) => {
     try {
-      // Find all intake records that are not yet completed
-      const activeIntakes = await intakeModel.findAll({
+      const pendingIntakes = await intakeModel.findAll({
         where: {
-          status: ["pending", "in progress"],
+          status: "pending",
         },
-        // Include all associated models for each active intake
+        include: [
+          { model: patientsModel },
+          { model: chiefComplaintModel },
+          { model: medicalHistoryModel },
+          { model: mskInjuryHistoryModel },
+          { model: functionalStatusModel },
+          { model: lifestyleFactorsModel },
+          { model: familySocialHistoryModel },
+          { model: patientGoalsModel },
+          { model: therapistNotesModel },
+        ],
+      });
+      if (!pendingIntakes || pendingIntakes.length === 0) {
+        return res.status(200).json([]); // Return empty array instead of 404
+      }
+
+      res.status(200).json(pendingIntakes);
+    } catch (error) {
+      console.error("Error retrieving pending intakes:", error);
+      res.status(500).json({
+        error: "Failed to retrieve pending intakes",
+        details: error.message,
+      });
+    }
+  },
+
+  inProgressIntakes: async (req, res) => {
+    try {
+      const inProgressIntakes = await intakeModel.findAll({
+        where: {
+          status: "in progress",
+        },
         include: [
           { model: patientsModel },
           { model: chiefComplaintModel },
@@ -147,15 +173,15 @@ const intakeControllers = {
         ],
       });
 
-      if (!activeIntakes) {
-        return res.status(404).json({ message: "No active intakes found." });
+      if (!inProgressIntakes || inProgressIntakes.length === 0) {
+        return res.status(200).json([]); // Return empty array instead of 404
       }
 
-      res.status(200).json(activeIntakes);
+      res.status(200).json(inProgressIntakes);
     } catch (error) {
-      console.error("Error retrieving active intakes:", error);
+      console.error("Error retrieving in-progress intakes:", error);
       res.status(500).json({
-        error: "Failed to retrieve active intakes",
+        error: "Failed to retrieve in-progress intakes",
         details: error.message,
       });
     }
@@ -181,7 +207,7 @@ const intakeControllers = {
       });
 
       if (!completedIntakes || completedIntakes.length === 0) {
-        return res.status(404).json({ message: "No completed intakes found." });
+        return res.status(200).json([]); // Return empty array instead of 404
       }
 
       res.status(200).json(completedIntakes);
@@ -233,7 +259,7 @@ const intakeControllers = {
       });
 
       if (!allIntakes || allIntakes.length === 0) {
-        return res.status(404).json({ message: "No intakes found." });
+        return res.status(404).json({ message: "No intakes found." }); 
       }
 
       res.status(200).json(allIntakes);
@@ -259,13 +285,8 @@ const intakeControllers = {
       intake.status = status;
       await intake.save();
 
-      // To send back a complete updated object, you can fetch it again with includes
       const updatedIntake = await intakeModel.findByPk(id, {
-        include: [
-          { model: patientsModel },
-          { model: chiefComplaintModel },
-          // Add other sub-models here
-        ],
+        include: [{ model: patientsModel }, { model: chiefComplaintModel }],
       });
 
       res.json(updatedIntake);

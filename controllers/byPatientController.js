@@ -1,13 +1,13 @@
 const intakeModel = require("../models/intakeModel");
 const patientsModel = require("../models/patientsModel");
-const chiefComplaintModel = require("../models/subModels/chiefComplaintModel");
-const familySocialHistoryModel = require("../models/subModels/familySocialHistoryModel");
-const functionalStatusModel = require("../models/subModels/functionalStatusModel");
-const lifestyleFactorsModel = require("../models/subModels/lifestyleFactorsModel");
-const medicalHistoryModel = require("../models/subModels/medicalHistoryModel");
-const mskInjuryHistoryModel = require("../models/subModels/mskInjuryHistoryModel");
-const patientGoalsModel = require("../models/subModels/patientGoalsModels");
-const therapistNotesModel = require("../models/subModels/therapistNotesModel");
+const chiefComplaintModel = require("../models/intakeSubModels/chiefComplaintModel");
+const familySocialHistoryModel = require("../models/intakeSubModels/familySocialHistoryModel");
+const functionalStatusModel = require("../models/intakeSubModels/functionalStatusModel");
+const lifestyleFactorsModel = require("../models/intakeSubModels/lifestyleFactorsModel");
+const medicalHistoryModel = require("../models/intakeSubModels/medicalHistoryModel");
+const mskInjuryHistoryModel = require("../models/intakeSubModels/mskInjuryHistoryModel");
+const patientGoalsModel = require("../models/intakeSubModels/patientGoalsModels");
+const therapistNotesModel = require("../models/intakeSubModels/therapistNotesModel");
 
 const byPatientController = async (req, res) => {
   const { patientId } = req.params;

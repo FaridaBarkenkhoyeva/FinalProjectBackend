@@ -1,14 +1,15 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/dbConnection");
 
-const assessmentModel = sequelize.define(
-  "Assessment",
+const treatmentPlan = sequelize.define(
+  "TreatmentPlan",
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
+
     intakeId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -17,10 +18,13 @@ const assessmentModel = sequelize.define(
         key: "id",
       },
     },
-    assessmentDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
+    numberOfSessions: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    additionalGoals: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
   },
   {
@@ -28,4 +32,4 @@ const assessmentModel = sequelize.define(
   }
 );
 
-module.exports = assessmentModel;
+module.exports = treatmentPlan;

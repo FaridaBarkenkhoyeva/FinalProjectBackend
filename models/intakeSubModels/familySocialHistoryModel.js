@@ -1,4 +1,3 @@
-
 const { DataTypes } = require("sequelize");
 const sequelize = require("../../db/dbConnection");
 
@@ -27,4 +26,3 @@ const familySocialHistoryModel = sequelize.define(
 );
 
 module.exports = familySocialHistoryModel;
-

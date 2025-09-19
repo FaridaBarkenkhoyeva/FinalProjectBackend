@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../db/dbConnection");
 
-const assessmentModel = sequelize.define(
-  "Assessment",
+const endEvaluationConclusion = sequelize.define(
+  "EndEvaluationConclusion",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -16,11 +16,11 @@ const assessmentModel = sequelize.define(
         model: "Intakes",
         key: "id",
       },
+      unique: true,
     },
-    assessmentDate: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
+    conclusionText: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
   },
   {
@@ -28,4 +28,4 @@ const assessmentModel = sequelize.define(
   }
 );
 
-module.exports = assessmentModel;
+module.exports = endEvaluationConclusion;
